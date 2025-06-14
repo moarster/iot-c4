@@ -1,0 +1,33 @@
+tags Service Product
+perspectives {
+    "Security" "OAuth 2.0"
+    "Performance" "Эффективное выполнение бизнес-логики"
+    "Scalability" "Горизонтальная масштабируемость для параллельной обработки"
+    "Availability" "Высокая доступность с отказоустойчивостью"
+}
+rest = component Controller  {
+    description "REST-контролер"
+    technology "Spring MVC" 
+    tags Java API Addon
+}
+
+yPortal.apiGateway -> rest "GET" "HTTP REST" "safe, sync, aux"
+
+consulClient = component "Consul Client" {
+    tags  Consul Java infra Tool
+    -> yPortal.consul "Регистрация, конфигурация" "DNS/HTTP" "safe, sync, collect, aux"
+}
+
+logback = component Logback {
+    tags Java Logback infra Tool
+}
+yPortal.filebeat -> logback  "Выгрузка логов" "Docker Discovery" "vague, collect, aux, async"
+
+actuator = component Micrometer {
+    description "Эндпоинт метрик"
+    technology "Spring Boot Actuator"
+    tags Java "Spring Boot" infra Tool
+    -> yPortal.zipkin "Сбор спанов" "HTTP" "aux, async"
+}
+yPortal.prometheus -> actuator "Агрегация метрик" "HTTP GET" "collect, safe, aux"
+

@@ -1,0 +1,6 @@
+*.idea/
+structurizr-*.json
+/target/
+*.vscode/
+*.iml
+*.code-workspace

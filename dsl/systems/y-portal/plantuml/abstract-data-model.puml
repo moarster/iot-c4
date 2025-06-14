@@ -1,0 +1,15 @@
+@startuml
+!include common-models-src.puml
+
+hide empty members
+hide circle
+skinparam Class {
+ FontSize 20
+ FontSize<<interface>> 10
+ AttributeFontSize<<interface>> 10
+ StereotypeFontSize<<interface>> 5
+ LineStyle<<interface>> dashed
+}
+skinparam FrameFontSize 15
+skinparam PackageFontSize 15
+@enduml

@@ -1,0 +1,121 @@
+@startuml
+!pragma useIntermediatePackages false
+package org.springframework.data.domain {
+    +interface Persistable<ID> {
+        ID getId()
+    }
+    +interface Auditable<U, ID, T extends TemporalAccessor> {
+        U getCreatedBy()
+        T getCreatedDate()
+        U getLastModifiedBy()
+        T getLastModifiedDate()
+    }
+    Persistable <|-[thickness=3]- Auditable
+}
+package cloud.solvo.model #pink;line:B71C1C;text:B71C1C;line.bold {
+
+        +interface CommonAuditable {
+        }
+        Auditable <|-[thickness=3]- [UUID, UUID, LocalDateTime] CommonAuditable
+
+        +interface CommonNamed   {
+            String getTitle()
+        }
+        CommonAuditable <|-[thickness=3]- CommonNamed
+
+        +interface CommonMeta #line.bold;line:008080;text:008080{
+            LocalDateTime getUntil()
+            LocalDateTime getSince()
+        }
+        CommonNamed <|-[thickness=3]- CommonMeta
+        Body <|-[thickness=3]- CommonMeta
+
+        interface CommonDomainItem #line.bold;line:008080;text:008080{
+            JsonNode getData()
+        }
+        CommonNamed <|-[thickness=3]- CommonDomainItem
+        Body <|-[thickness=3]- CommonDomainItem
+        Procedural <|-[thickness=3]- CommonDomainItem
+        Importable <|-[thickness=3]- CommonDomainItem
+
+        interface Procedural <<Interface>> ##[dashed]C62828 {
+            UUID getStatus()
+            String getProcess()
+        }
+        interface Importable <<Interface>> ##[dashed]C62828{
+            getSourcePointer()
+        }
+        interface Body <<Interface>>  ##[dashed]C62828{
+            JsonNode getBody()
+        }
+
+
+
+
+    package impl {
+        ~abstract class CommonAuditableImpl {
+            # UUID id
+            # UUID createdBy
+            # LocalDateTime createdDate
+            # UUID lastModifiedBy
+            # LocalDateTime lastModifiedDate
+        }
+        CommonAuditable <|.. CommonAuditableImpl #C62828
+
+        ~abstract class CommonNamedImpl {
+            # String title
+        }
+        CommonAuditableImpl <|-[thickness=3]- CommonNamedImpl
+        CommonNamed <|.. CommonNamedImpl #C62828
+
+        abstract class RichList #line.bold;line:008080;text:008080{
+        }
+
+        abstract class RichListItem<C extends RichList> #line.bold;line:008080;text:008080{
+            - JsonNode data
+            + JsonNode getBody()
+        }
+
+        abstract class SimpleListItem<L extends SimpleList> #line.bold;line:008080;text:008080 {
+            - L list
+        }
+        abstract class SimpleList #line.bold;line:008080;text:008080 {
+            - String key
+        }
+
+
+        +abstract class CommonMetaImpl #line.bold;line:008080;text:008080{
+            ~ JsonNode schema
+        }
+        CommonMeta <|.. CommonMetaImpl #C62828
+        CommonAuditableImpl <|-[thickness=3]- CommonMetaImpl
+
+        abstract class CommonDomainItemImpl #line.bold;line:008080;text:008080{
+            ~ JsonNode data
+            ~ String displayString
+            ~ UUID meta
+            ~ UUID status
+            ~ String process
+            ~ SourcePointer sourcePointer
+        }
+        CommonNamedImpl <|-[thickness=3]- CommonDomainItemImpl
+        CommonDomainItem <|.. CommonDomainItemImpl #C62828
+
+    }
+}
+
+SimpleList <|--down[thickness=3]- RichList
+CommonNamedImpl <|-[thickness=3]- SimpleListItem
+
+CommonNamedImpl <|-[thickness=3]- SimpleList
+SimpleList *-[thickness=2]right---- SimpleListItem #008080
+RichList *-----left[thickness=2]----- RichListItem #008080
+Body <|.. RichListItem #C62828
+SimpleListItem <|-[thickness=3]- RichListItem
+
+Body -right[hidden]- Searchable
+
+
+
+
+@enduml

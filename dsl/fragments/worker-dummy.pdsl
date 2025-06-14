@@ -1,0 +1,30 @@
+!include service-dummy.pdsl
+technology "Spring Boot" 
+tags Worker Solvo "Spring Boot" 
+
+srv = component Logic  {
+    description "Бизнес-логика"
+    technology "Spring Boot Service"
+    tags Java Product
+}
+rest -> srv "" "@Autowire" "command, sync, aux"
+securityFilterChain = component SecurityFilterChain {
+    technology "Spring Security"
+    tags Java Tool
+}
+rest -> securityFilterChain "JWT" "" "sync, check, aux"
+securityFilterChain -> iam "проверка прав" "" "sync, check, aux"
+job = component Worker {
+    description "Подписчик"
+    technology "Zeebe Spring Client"
+    tags Java Pillar Worker
+    
+}
+//bpm -> job  Задачи "long polling, gRPC" "async, request, major"
+
+job -> srv "" "@Jobworker" "sync, command, major"
+
+consulClient ->  yPortal.starter.config "worker.properties" "" "major, check"
+rest -> yPortal.library.api "наследует" "extends" "super, vague"
+job -> yPortal.library.worker "наследует" "extends" "super, vague"
+
