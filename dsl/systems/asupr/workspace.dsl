@@ -134,7 +134,7 @@ workspace  extends ../../iot-landscape.dsl {
         //АСУПР
         !element asupr {
             balancers = container "Web Load Balancers" "Распределение входящих HTTP/HTTPS сессий"  {
-                technology "Apache 2.4, Haproxy 1.5.4-4"
+                technology "Apache, Haproxy"
                 tags Haproxy Tool
 
                 component "Load Balancer 1 (ASUPR-LB1-WEB-P)" "Балансировщик нагрузки" "Haproxy"
@@ -145,8 +145,8 @@ workspace  extends ../../iot-landscape.dsl {
                 tags browser Pillar
             }
 
-            app = container "Application Servers Cluster" "Кластер серверов приложений, хостинг основной логики АСУПР." {
-                technology "Oracle WebLogic Server 12c, RHEL 7.1 x64, Python 2.7.5, lighttpd, nginx"
+            app = container "Application Servers" "Кластер серверов приложений, хостинг основной логики АСУПР" {
+                technology "Oracle WebLogic Server 12c"
                 tags Product Oracle
 
                 sbvu = component "СБВУ (Подсистема сбора данных верхнего уровня)" "Централизованный сбор данных от НУ и сторонних систем" {
@@ -168,16 +168,25 @@ workspace  extends ../../iot-landscape.dsl {
                     technology Python
                     tags Python Product
                 }
-                component "ДИСП (Подсистема диспетчеризации)" "Мониторинг измерений, состояния СИ, аварийных ситуаций." "WebLogic"
-                nsi = component "ПНСИ (Подсистема ведения НСИ)" "Централизованное ведение нормативно-справочной информации."  {
+                disp = component "ДИСП (Подсистема диспетчеризации)" "Мониторинг измерений, состояния СИ, аварийных ситуаций" {
+                    technology Python
+                    tags Python Product
+                }
+                nsi = component "ПНСИ (Подсистема ведения НСИ)" "Централизованное ведение нормативно-справочной информации"  {
+                    technology Python
+                    tags Python Product
+                }
+                iu = component "ИУ (Подсистема имущественного учета)" "Ведение реестра объектов эксплуатации и оборудования" {
+                    technology Python
+                    tags Python Product
+                }
+                pmto = component "ПМТО (Подсистема материально-технического обеспечения)" "Учет поступления, списания, установки оборудования/материалов" {
+                    technology Python
+                    tags Python Product
+                }
+                bi = component "ОАС (Отчетно-аналитическая подсистема)" "Предоставление отчетной и аналитической информации" {
                     technology Python
                     tags Python Pillar
-                }
-                component "ИУ (Подсистема имущественного учета)" "Ведение реестра объектов эксплуатации и оборудования." "WebLogic"
-                component "ПМТО (Подсистема материально-технического обеспечения)" "Учет поступления, списания, установки оборудования/материалов." "WebLogic"
-                bi = component "ОАС (Отчетно-аналитическая подсистема)" "Предоставление отчетной и аналитической информации" {
-                    technology "Oracle Business Intelligence"
-                    tags Oracle Tool
                 }
                 okd = component "ОКД (Подсистема оценки качества данных)" "Аналитическая обработка, поиск аномалий, оценка качества данных" {
                     technology Python
@@ -187,7 +196,10 @@ workspace  extends ../../iot-landscape.dsl {
                     technology Python
                     tags Python Product
                 }
-                component "ОЕВ (Подсистема обеспечения единого времени)" "Контроль расхождений времени часов ПУ." "WebLogic"
+                time = component "ОЕВ (Подсистема обеспечения единого времени)" "Контроль расхождений времени часов ПУ" {
+                    technology Python
+                    tags Python Addon
+                }
                 data = component "ХД (Подсистема хранения и обработки данных)" "Хранение, загрузка, обработка и предоставление информации" {
                     tags Pillar
                 }
@@ -195,7 +207,9 @@ workspace  extends ../../iot-landscape.dsl {
                     technology Python
                     tags Python Pillar
                 }
-                component "ИБ (Подсистема информационной безопасности)" "Защита обрабатываемой информации, контроль доступа." "WebLogic"
+                auth = component "ИБ (Подсистема информационной безопасности)" "Защита обрабатываемой информации, контроль доступа." {
+                    tags Python Pillar
+                }
                 adm = component "АДМ (Подсистема администрирования)" "Управление пользователями, полномочиями, диагностикой." {
                     technology WebLogic
                     tags Oracle Pillar
@@ -243,7 +257,7 @@ workspace  extends ../../iot-landscape.dsl {
             }
 
             bi = container "BI System" "Система бизнес-аналитики для формирования отчетов"  {
-                technology "Oracle Business Intelligence 11.1.1.7"
+                technology "Oracle Business Intelligence"
                 tags Oracle Tool
             }
 
@@ -263,8 +277,8 @@ workspace  extends ../../iot-landscape.dsl {
             operDb -> bufferDb "синхронизация" "" "вспомогательное, асинхронное"
             bufferDb -> archiveDb "архивация" "" "вспомогательное, асинхронное"
 
-            web -> app "" "HTTP/HTTPS" "запрос, синхронное, основное"
-            android -> app "" "HTTP/HTTPS" "запрос, синхронное, основное"
+            web -> balancers "" "HTTP/HTTPS" "запрос, синхронное, основное"
+            android -> balancers "" "HTTP/HTTPS" "запрос, синхронное, основное"
         }
 
         headDispatcher -> asupr "управление производством" "" "косвенное"
@@ -330,11 +344,18 @@ workspace  extends ../../iot-landscape.dsl {
         }
         container asupr asupr-users "Обзор пользователей АСУПР" {
             include *
-            exclude "element.tag==External,db"
+            exclude "element.tag==External"
+            exclude "element.tag==db"
         }
         component asupr.app asupr-app "Обзор подсистем АСУПР" {
             include *
             exclude "element.type==Person"
+            exclude "element.tag==External"
+        }
+        component asupr.app asupr-integration "Интеграции АСУПР" {
+            include *
+            exclude "element.type==Person"
+            exclude "element.tag==db"
         }
     }
     !script ../../scripts/Tagger.groovy {
