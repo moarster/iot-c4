@@ -356,8 +356,8 @@ workspace "Базовые стили" {
             }
             element db {
                 shape Cylinder
-                width 220
-                height 250
+                width 250
+                height 300
                 strokeWidth 5
                 fontSize 20
                 color white
@@ -445,7 +445,24 @@ workspace "Базовые стили" {
             element Dit {
                 icon icons/dit-icon.png
             }
-
+            element Oracle {
+                icon icons/oracle.png
+            }
+            element Haproxy {
+                icon icons/haproxy.png
+            }
+            element Nginx {
+                icon icons/nginx.png
+            }
+            element Python {
+                icon icons/python.png
+            }
+            element Android {
+                icon icons/android.png
+            }
+            element Mysql {
+                icon icons/mysql.png
+            }
 
             element "Deployment Node" {
                 stroke ${BLUE}

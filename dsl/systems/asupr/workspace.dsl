@@ -126,14 +126,17 @@ workspace  extends ../../iot-landscape.dsl {
             description "Государственная информационная система жилищно-коммунального хозяйства"
             tags External
         }
-        zabbix = softwareSystem "Zabbix Monitoring System"  {
+        zabbix = softwareSystem Zabbix  {
             description "Система мониторинга инфраструктуры и приложений"
             tags External
         }
 
         //АСУПР
         !element asupr {
-            balancers = container "Web Load Balancers" "Распределение входящих HTTP/HTTPS сессий." "Apache 2.4, Haproxy 1.5.4-4" {
+            balancers = container "Web Load Balancers" "Распределение входящих HTTP/HTTPS сессий"  {
+                technology "Apache 2.4, Haproxy 1.5.4-4"
+                tags Haproxy Tool
+
                 component "Load Balancer 1 (ASUPR-LB1-WEB-P)" "Балансировщик нагрузки" "Haproxy"
                 component "Load Balancer 2 (ASUPR-LB2-WEB-P)" "Балансировщик нагрузки" "Haproxy"
             }
@@ -215,7 +218,7 @@ workspace  extends ../../iot-landscape.dsl {
             }
             bufferDb = container "Buffer Database" "Буферная база данных СБВУ" {
                 technology MySQL
-                tags db MySQL
+                tags db Mysql
             }
             archiveDb = container "Archive Database" "Архивная база данных СБВУ" {
                 technology MongoDB
@@ -226,7 +229,10 @@ workspace  extends ../../iot-landscape.dsl {
                 tags db Postgres
             }
 
-            proxy = container "Proxy Servers" "Серверы-посредники для взаимодействия с УСПД." "Python, lighttpd, nginx" {
+            proxy = container "Proxy Servers" "Серверы-посредники для взаимодействия с УСПД"  {
+                technology "Python, lighttpd, nginx"
+                tags Nginx Addon
+
                 uspd = component "Модуль взаимодействия с УСПД (ASSDSSD-BAL-WS)" "Обрабатывает входящие соединения от УСПД" {
                     technology Python
                     tags Python Pillar doubt
@@ -236,14 +242,14 @@ workspace  extends ../../iot-landscape.dsl {
                 component "Технологический прокси сервис (ASUPR-WS-TECH-P)" "Проксирование технологического доступа." "HAP"
             }
 
-            bi = container "Business Intelligence System" "Система бизнес-аналитики для формирования отчетов"  {
+            bi = container "BI System" "Система бизнес-аналитики для формирования отчетов"  {
                 technology "Oracle Business Intelligence 11.1.1.7"
                 tags Oracle Tool
             }
 
             android = container "АРМ Ремонтник" "Мобильное приложение для ремонтников" {
                 technology Android
-                tags mobile Android
+                tags mobile Android Pillar
             }
 
             balancers -> app "балансирует трафик" "HTTP/HTTPS" "составное, синхронное, основное"
@@ -295,7 +301,7 @@ workspace  extends ../../iot-landscape.dsl {
 
         asupr.proxy.uspd -> uspd "данные и команды" "OPC UA, TCP/IP" "синхронное, запрос"
 
-        asupr.app.integrator -> egip "картографические данные" "HTTP/HTTPS (JSON/XML)" "синхронное, основное, запрос"
+        asupr.app.integrator -> egip "ГИС-данные" "HTTP/HTTPS (JSON/XML)" "синхронное, основное, запрос"
         asupr.app.integrator -> sudir "пользователи и роли" "SOAP (XML)" "синхронное, основное, логин"
         asupr.app.integrator -> ur "справочники" "SOAP (XML)" "синхронное, вспомогательное, запрос"
         asupr.app.integrator -> eirc "оборудование и потребление" "SOAP (XML)" "синхронное, основное, запрос"
@@ -304,11 +310,15 @@ workspace  extends ../../iot-landscape.dsl {
         asupr.app.integrator -> dispatchCenters "" "SOAP (JSON)" "агрегирующее, критичное, запрос"
         asupr.app.integrator -> rsoSystems "потребление и узлы учета" "SOAP (XML)" "агрегирующее, синхронное, основное, запрос"
         asupr.app.integrator -> edoSystems "документы" "SOAP/HTTP/IBM MQ (XML/PDF/DOCX/JPEG)" "агрегирующее, основное, составное"
-        asupr.app.integrator -> gisZhkh "ПУ и справочными данными" "SOAP (XML)" "синхронное, основное, запрос"
+        asupr.app.integrator -> gisZhkh "ПУ и справочные данные" "SOAP (XML)" "синхронное, основное, запрос"
         asupr.app.sbvu -> situationCenter  "измерения и события" "OPC UA (Бинарный)" "асинхронное, основное, сообщение"
     }
 
     views {
+        branding {
+            logo icons/asupr-logo.png
+        }
+
         systemContext asupr asupr-context "Системный контекст АСУПР" {
             include *
             exclude "element.type==Person"
@@ -316,13 +326,15 @@ workspace  extends ../../iot-landscape.dsl {
         container asupr asupr-container "Обзор компонент АСУПР" {
             include *
             exclude "element.type==Person"
+            exclude "element.tag==External"
         }
         container asupr asupr-users "Обзор пользователей АСУПР" {
             include *
-            exclude "element.tag==External [system]"
+            exclude "element.tag==External,db"
         }
         component asupr.app asupr-app "Обзор подсистем АСУПР" {
             include *
+            exclude "element.type==Person"
         }
     }
     !script ../../scripts/Tagger.groovy {

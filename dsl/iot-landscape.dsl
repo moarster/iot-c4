@@ -15,10 +15,10 @@ workspace "Системный контекст IoT-платформы" {
         }
 
         uspd = softwareSystem УСПД "Устройство сбора и передачи данных" {
-            tags External
+            tags Pillar
         }
         asupr = softwareSystem АСУПР "Автоматизированная система учета потребления ресурсов" {
-            tags External Asupr
+            tags Pillar Asupr
 
         }
 
@@ -28,7 +28,7 @@ workspace "Системный контекст IoT-платформы" {
 
         keycloak = softwareSystem Keycloak "Управление аутентификацией и авторизацией"  {
 
-            tags Keycloak External
+            tags Keycloak Tool
             perspectives {
                 Security "OAuth 2.0 authentication"
                 Performance "Масштабируемость для больших баз пользователей"
@@ -39,7 +39,7 @@ workspace "Системный контекст IoT-платформы" {
 
 
         kafka = softwareSystem "Apache Kafka" "Брокер сообщений" {
-            tags Kafka queue bus External
+            tags Kafka queue bus Pillar
             perspectives {
                 Security "SSL шифрование"
                 Performance "Высокая пропускная способность"
