@@ -317,7 +317,7 @@ workspace  extends ../../iot-landscape.dsl {
             include *
             exclude "element.type==Person"
         }
-        container asupr asupr-container "Обзор пользователей АСУПР" {
+        container asupr asupr-users "Обзор пользователей АСУПР" {
             include *
             exclude "element.tag==External [system]"
         }
