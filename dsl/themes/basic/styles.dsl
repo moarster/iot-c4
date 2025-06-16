@@ -75,15 +75,8 @@
 
 
 workspace "Базовые стили" {
-    model {
-        system = softwareSystem system
-    }
 
     views {
-        systemContext system "Cont" {
-            include *
-        }
-
         branding {
             font "Fira Code" https://fonts.googleapis.com/css2?family=Fira+Code
             logo icons/iteco-logo.png

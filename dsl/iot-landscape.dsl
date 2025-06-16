@@ -19,6 +19,7 @@ workspace "Системный контекст IoT-платформы" {
         }
         asupr = softwareSystem АСУПР "Автоматизированная система учета потребления ресурсов" {
             tags External Asupr
+
         }
 
         iot = softwareSystem "IoT-платформа" {
@@ -63,6 +64,8 @@ workspace "Системный контекст IoT-платформы" {
         }
 
     }
+
     !script scripts/landscape.groovy
     !script scripts/Tagger.groovy
+
 }
