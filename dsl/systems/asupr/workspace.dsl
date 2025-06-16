@@ -133,7 +133,7 @@ workspace  extends ../../iot-landscape.dsl {
 
         //АСУПР
         !element asupr {
-            balancers = container "Web Load Balancers" "Распределение входящих HTTP/HTTPS сессий"  {
+            balancers = container Балансировщики "Распределение входящих HTTP/HTTPS сессий"  {
                 technology "Apache, Haproxy"
                 tags Haproxy Tool
 
@@ -145,76 +145,76 @@ workspace  extends ../../iot-landscape.dsl {
                 tags browser Pillar
             }
 
-            app = container "Application Servers" "Кластер серверов приложений, хостинг основной логики АСУПР" {
+            app = container "Кластер серверов приложений" "Хостинг основной логики АСУПР" {
                 technology "Oracle WebLogic Server 12c"
                 tags Product Oracle
 
-                sbvu = component "СБВУ (Подсистема сбора данных верхнего уровня)" "Централизованный сбор данных от НУ и сторонних систем" {
+                sbvu = component СБВУ "Подсистема сбора данных верхнего уровня" {
                     technology Python
                     tags Python Product doubt
                 }
-                dmk = component "ДМК (Подсистема дистанционного мониторинга и конфигурирования)" "Диагностика и конфигурирование УСПД/ПУ" {
+                dmk = component ДМК "Подсистема дистанционного мониторинга и конфигурирования" {
                     tags Python Product
                 }
-                unu = component "УНУ (Подсистема управления нижним уровнем)" "Управление устройствами НУ, защита подключений" {
+                unu = component УНУ "Подсистема управления нижним уровнем" {
                     technology Python
                     tags Python Product
                 }
-                pku = component "ПКУ (Подсистема коммерческого учета)" "Сбор и контроль данных о потреблении ресурсов" {
+                pku = component ПКУ "Подсистема коммерческого учета" {
                     technology Python
                     tags Python Product
                 }
-                toir = component "ТОиР (Подсистема технического обслуживания и ремонта)" "Планирование и контроль ТОиР средств измерений."  {
+                toir = component ТОиР "Подсистема технического обслуживания и ремонта"  {
                     technology Python
                     tags Python Product
                 }
-                disp = component "ДИСП (Подсистема диспетчеризации)" "Мониторинг измерений, состояния СИ, аварийных ситуаций" {
+                disp = component ДИСП "Подсистема диспетчеризации" {
                     technology Python
                     tags Python Product
                 }
-                nsi = component "ПНСИ (Подсистема ведения НСИ)" "Централизованное ведение нормативно-справочной информации"  {
+                nsi = component ПНСИ "Подсистема ведения НСИ"  {
                     technology Python
                     tags Python Product
                 }
-                iu = component "ИУ (Подсистема имущественного учета)" "Ведение реестра объектов эксплуатации и оборудования" {
+                iu = component ИУ "Подсистема имущественного учета" {
                     technology Python
                     tags Python Product
                 }
-                pmto = component "ПМТО (Подсистема материально-технического обеспечения)" "Учет поступления, списания, установки оборудования/материалов" {
+                pmto = component ПМТО "Подсистема материально-технического обеспечения" {
                     technology Python
                     tags Python Product
                 }
-                bi = component "ОАС (Отчетно-аналитическая подсистема)" "Предоставление отчетной и аналитической информации" {
+                bi = component ОАС "Отчетно-аналитическая подсистема" {
                     technology Python
                     tags Python Pillar
                 }
-                okd = component "ОКД (Подсистема оценки качества данных)" "Аналитическая обработка, поиск аномалий, оценка качества данных" {
+                okd = component ОКД "Подсистема оценки качества данных" {
                     technology Python
                     tags Python Pillar
                 }
-                rd = component "РД (Подсистема расчетов и досчетов)" "Расчет недоработки приборов учета, формирование документов" {
+                rd = component РД "Подсистема расчетов и досчетов" {
                     technology Python
                     tags Python Product
                 }
-                time = component "ОЕВ (Подсистема обеспечения единого времени)" "Контроль расхождений времени часов ПУ" {
+                time = component ОЕВ "Подсистема обеспечения единого времени" {
                     technology Python
                     tags Python Addon
                 }
-                data = component "ХД (Подсистема хранения и обработки данных)" "Хранение, загрузка, обработка и предоставление информации" {
+                data = component ХД "Подсистема хранения и обработки данных" {
                     tags Pillar
                 }
-                integrator = component "ИВ (Подсистема информационного взаимодействия)" "Интеграция с внешними информационными системами." {
+                integrator = component ИВ "Подсистема информационного взаимодействия" {
                     technology Python
                     tags Python Pillar
                 }
-                auth = component "ИБ (Подсистема информационной безопасности)" "Защита обрабатываемой информации, контроль доступа." {
+                auth = component ИБ "Подсистема информационной безопасности" {
                     tags Python Pillar
                 }
-                adm = component "АДМ (Подсистема администрирования)" "Управление пользователями, полномочиями, диагностикой." {
+                adm = component АДМ "Подсистема администрирования" {
                     technology WebLogic
                     tags Oracle Pillar
                 }
-                monitor = component "МН (Подсистема мониторинга)" "Мониторинг процессов сбора данных, расчетов, состояния Системы." {
+                monitor = component МН "Подсистема мониторинга" {
                     tags Addon
                 }
 
@@ -345,6 +345,7 @@ workspace  extends ../../iot-landscape.dsl {
         container asupr asupr-users "Обзор пользователей АСУПР" {
             include *
             exclude "element.tag==External"
+            exclude "element.type==SoftwareSystem"
             exclude "element.tag==db"
         }
         component asupr.app asupr-app "Обзор подсистем АСУПР" {
