@@ -84,20 +84,20 @@ workspace  extends ../../iot-landscape.dsl {
         }
          styles {
             element "Element" {
-                color #ffffff // Белый текст по умолчанию
+                color #ffffff
             }
             element "KafkaBusSystem" {
-                background #007bff // Синий для основной системы Kafka
+                background #007bff
                 color #ffffff
                 shape Box
             }
             element "KafkaClientApp" {
-                background #6c757d // Серый для клиентских приложений
+                background #6c757d
                 color #ffffff
                 shape Box
             }
             element "KafkaBrokerCluster" {
-                background #28a745 // Зеленый для кластера брокеров
+                background #28a745
                 color #ffffff
                 shape Box
             }
