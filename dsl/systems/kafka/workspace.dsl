@@ -13,19 +13,19 @@ workspace  extends ../../iot-landscape.dsl {
         !element kafka {
             tags "KafkaBusSystem"
 
-            cluster = container "Кластер Kafka" "Распределенный кластер брокеров Kafka, отвечающий за хранение и обслуживание потоков сообщений." "Apache Kafka" {
+            cluster = container "Кластер Kafka" "Распределенный кластер брокеров Kafka" "Apache Kafka" {
                 tags "KafkaBrokerCluster"
 
-                broker = component "Брокер Kafka" "Отдельный экземпляр сервера Kafka, отвечающий за хранение сообщений и обслуживание клиентских запросов. Данные реплицируются между несколькими брокерами для отказоустойчивости." "Java/Scala" {
+                broker = component "Брокер Kafka" "Отдельный экземпляр сервера Kafka, отвечающий за хранение сообщений и обслуживание клиентских запросов" "Java/Scala" {
                     tags "KafkaBroker"
                 }
-                topics = component "Топики Kafka" "Логические каналы для категоризации сообщений. Каждый топик разделен на разделы (партиции), которые являются единицей параллелизма и распределены между брокерами." "Logical Abstraction" {
+                topics = component "Топики Kafka" "Логические каналы для категоризации сообщений" "Logical Abstraction" {
                     tags "KafkaTopic"
                 }
-                producerApi = component "Producer API" "Интерфейс, позволяющий приложениям публиковать записи в топики Kafka, обрабатывая логику сериализации и разделения на партиции." "Kafka API" {
+                producerApi = component "Producer API" "Интерфейс, позволяющий приложениям публиковать записи в топик " "Kafka API" {
                     tags "KafkaProducerAPI"
                 }
-                consumerApi = component "Consumer API" "Интерфейс, позволяющий приложениям читать записи из одного или нескольких топиков Kafka, управляя смещениями потребителей и логикой групп." "Kafka API" {
+                consumerApi = component "Consumer API" "Интерфейс, позволяющий приложениям читать записи из одного или нескольких топиков" "Kafka API" {
                     tags "KafkaConsumerAPI"
                 }
 
@@ -35,21 +35,21 @@ workspace  extends ../../iot-landscape.dsl {
                 consumerApi -> topics "Читает сообщения из"
                 topics -> consumerApi "Доставляет сообщения для"
             }
-            zookeeper = container "Apache ZooKeeper" "Управляет и координирует брокеры Kafka, конфигурации топиков и выборы лидера для кластера." "Apache ZooKeeper" {
+            zookeeper = container "Apache ZooKeeper" "Управляет и координирует брокеры Kafka, конфигурации топиков и выборы лидера для кластера"  {
                 tags "CoordinationService"
             }
-            schemaRegistry = container "Kafka Schema Registry" "Предоставляет централизованное хранилище для схем Avro, Protobuf и JSON, обеспечивая совместимость и эволюцию данных." "Confluent Schema Registry" {
+            schemaRegistry = container "Schema Registry" "Централизованное хранилище схем, обеспечивает совместимость и эволюцию данных" "Confluent Schema Registry" {
                 tags "SchemaManagement"
             }
-            connect = container "Kafka Connect" "Фреймворк для надежной потоковой передачи данных между Apache Kafka и другими системами, запускающий коннекторы источника и приемника." "Apache Kafka Connect" {
+            connect = container "Kafka Connect" "Потоковая передачи данных между Apache Kafka и другими системами" "Apache Kafka Connect" {
                 tags "IntegrationTool"
             }
 
             // Межконтейнерные связи внутри Шины Kafka
             cluster -> zookeeper "Регистрируется и полагается для координации и управления метаданными"
-            schemaRegistry -> cluster "Хранит схемы во внутренних топиках Kafka и извлекает их для валидации"
-            connect -> cluster "Читает из и записывает в топики Kafka для интеграции данных"
-            connect -> schemaRegistry "Извлекает и регистрирует схемы для преобразования и валидации данных"
+            schemaRegistry -> cluster "Хранит схемы во внутренних топиках"
+            connect -> cluster "Читает и записывает топики"
+            connect -> schemaRegistry "Извлекает и регистрирует схемы для преобразования и валидации"
         }
 
 
