@@ -10,7 +10,7 @@ workspace  extends ../../iot-landscape.dsl {
 
     model {
 
-        !extend kafka {
+        !element kafka {
             tags "KafkaBusSystem"
 
             cluster = container "Кластер Kafka" "Распределенный кластер брокеров Kafka, отвечающий за хранение и обслуживание потоков сообщений." "Apache Kafka" {
