@@ -311,9 +311,15 @@ workspace  extends ../../iot-landscape.dsl {
     views {
         systemContext asupr asupr-context "Системный контекст АСУПР" {
             include *
+            exclude "element.type==Person"
         }
         container asupr asupr-container "Обзор компонент АСУПР" {
             include *
+            exclude "element.type==Person"
+        }
+        container asupr asupr-container "Обзор пользователей АСУПР" {
+            include *
+            exclude "element.tag==External [system]"
         }
         component asupr.app asupr-app "Обзор подсистем АСУПР" {
             include *
