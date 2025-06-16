@@ -325,4 +325,6 @@ workspace  extends ../../iot-landscape.dsl {
             include *
         }
     }
+    !script ../../scripts/Tagger.groovy {
+    }
 }
