@@ -138,7 +138,7 @@ workspace  extends ../../iot-landscape.dsl {
             }
             relationship "Uses" {
                 color #000000
-                line dashed
+                style Dashed
             }
         }
     }
