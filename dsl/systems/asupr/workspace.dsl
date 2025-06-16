@@ -85,50 +85,50 @@ workspace  extends ../../iot-landscape.dsl {
         //Внешние системы
         egip = softwareSystem "ИАИС ЕГИП"  {
             description "Интегрированная автоматизированная информационная система «Единое геоинформационное пространство города Москвы»"
-            tag External 
+            tags External
         }
         sudir = softwareSystem "АИС СУДИР"  {
             description "Автоматизированная информационная система «Система управления доступом к информационным системам и ресурсам города Москвы»."
-            tag External 
+            tags External
         }
         ur = softwareSystem "АС УР"  {
             description "Единая система ведения и управления реестрами, регистрами, справочниками и классификаторами"
-            tag External 
+            tags External
         }
         situationCenter = softwareSystem "НУ АС Ситуационного центра ГКУ Соцэнерго"  {
-            tag External
+            tags External
         }
         odopm = softwareSystem "ЕГАС ОДОПМ"  {
             description "Единая городская автоматизированная система обеспечения поддержки деятельности Открытого правительства города Москвы"
-            tag External 
+            tags External
         }
         eirc = softwareSystem "АСУ ЕИРЦ"  {
             description "Автоматизированная система управления «Информационное обеспечение деятельности ЕИРЦ»"
-            tag External 
+            tags External
         }
         gisRd = softwareSystem "ГИС РД"  {
             description "Государственная информационная система «Реестр домовладений»"
-            tag External 
+            tags External
         }
         dispatchCenters = softwareSystem "Диспетчерские центры"  {
             description "Внешние информационные системы диспетчерских служб"
-            tag External 
+            tags External
         }
         rsoSystems = softwareSystem "Информационные системы РСО"  {
             description "Информационные системы ресурсоснабжающих организаций"
-            tag External 
+            tags External
         }
         edoSystems = softwareSystem "Системы ЭДО" {
             description "Системы электронного документооборота"
-            tag External 
+            tags External
         }
         gisZhkh = softwareSystem "ГИС ЖКХ"  {
             description "Государственная информационная система жилищно-коммунального хозяйства"
-            tag External 
+            tags External
         }
         zabbix = softwareSystem "Zabbix Monitoring System"  {
             description "Система мониторинга инфраструктуры и приложений"
-            tag External 
+            tags External
         }
 
         //АСУПР
