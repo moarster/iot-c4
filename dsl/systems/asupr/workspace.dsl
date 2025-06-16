@@ -316,7 +316,7 @@ workspace  extends ../../iot-landscape.dsl {
 
     views {
         branding {
-            logo icons/asupr-logo.png
+            logo ../../themes/basic/icons/asupr-logo.png
         }
 
         systemContext asupr asupr-context "Системный контекст АСУПР" {
