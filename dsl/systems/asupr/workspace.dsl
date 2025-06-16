@@ -57,12 +57,13 @@ workspace  extends ../../iot-landscape.dsl {
         repairController = person "Контролер ремонтных работ" {
             description "Контроль и мониторинг исполнения заявок на ремонт."
         }
-        nsiAdministrator = person "Администратор-оператор НСИ" {
+        nsiAdministrator = person "Администратор НСИ" {
+            tags Administrator
             description "Ведение нормативно-справочной информации."
         }
         systemAdministrator = person "Администратор системы" {
             description "Настройка пользователей, системных параметров, мониторинг."
-            tags Administrator
+            tags Security
         }
         consumer = person "Потребитель" {
             description "Учет и контроль потребления ресурсов через Личный кабинет."

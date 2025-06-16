@@ -1,6 +1,7 @@
 workspace "Системный контекст IoT-платформы" {
 
     !identifiers hierarchical
+    !impliedRelationships true
 
     configuration {
         visibility public
