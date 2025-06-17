@@ -43,11 +43,11 @@ workspace extends ../../iot-landscape.dsl {
                         technology "Spring Kafka"
                         tags Spring Tool
                     }
-                    mongoRepo = component "MongoDB Reactive Repository" "Сохраняет данные в MongoDB" {
+                    mongoRepo = component "Reactive Repository" "Сохраняет данные в MongoDB" {
                         technology "Spring Mongo"
                         tags Spring Tool
                     }
-                    postgresRepo = component "PostgreSQL R2DBC Repository" "Сохраняет данные в PostgreSQL" {
+                    postgresRepo = component "R2DBC Repository" "Сохраняет данные в PostgreSQL" {
                         technology "Spring R2DBC"
                         tags Spring Tool
                     }
@@ -88,9 +88,6 @@ workspace extends ../../iot-landscape.dsl {
     views {
         branding {
             logo ../../themes/basic/icons/iteco-logo.png
-        }
-        systemContext iot iot-context "Системный контекст IoT-платформы" {
-            include *
         }
         container iot iot-container "Обзор компонент IoT-платформы" {
             include *

@@ -405,7 +405,7 @@ workspace "Базовые стили" {
                 icon icons/postgresql.png
             }
             element Mongo {
-                icon icons/mongo.png
+                icon icons/mongo.svg
             }
             element Rabbit {
                 icon icons/rabbit.svg
@@ -453,13 +453,13 @@ workspace "Базовые стили" {
                 icon icons/nginx.png
             }
             element Python {
-                icon icons/python.png
+                icon icons/python.svg
             }
             element Android {
-                icon icons/android.png
+                icon icons/android.svg
             }
             element Mysql {
-                icon icons/mysql.png
+                icon icons/mysql.svg
             }
 
             element "Deployment Node" {
