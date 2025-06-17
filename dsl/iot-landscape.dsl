@@ -59,6 +59,9 @@ workspace "Системный контекст IoT-платформы" {
 
     views {
         theme https://structurizr.moarse.ru/workspace/1/theme
+        branding {
+            logo themes/basic/icons/iteco-logo.png
+        }
         properties {
             "structurizr.timezone" "Europe/Moscow"
             "structurizr.locale" "ru-RU"

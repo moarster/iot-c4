@@ -67,11 +67,6 @@
 //SAFE
 !const GOLD #DAA520
 
-!const CAMUNDA  #FC5D0D
-//!const SPRING  #6EB23F
-//!const GREEN  #6EB23F
-//!const FONT #003557
-//!const YELLOW  #FFBE47
 
 
 workspace "Базовые стили" {
@@ -435,6 +430,9 @@ workspace "Базовые стили" {
             }
             element Minio {
                 icon icons/minio.png
+            }
+            element Kotlin {
+                icon icons/kotlin.svg
             }
             element Kafka {
                 icon icons/kafka.png
